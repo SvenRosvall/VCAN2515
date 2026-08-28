@@ -13,6 +13,12 @@ using this CAN2515 CAN transport instead of the serial transport.
 
 See more details in [Examples Documentation](docs/Examples.md).
 
+## Supported platforms
+
+This library has been tested with Arduino Nano and Raspberry Pi Pico boards.
+
+It has also been compiled successfully for the ESP32 platform.
+
 ## Dependencies
 Note that this library depends on a number of other libraries which must also be downloaded and included in the sketch:
 
