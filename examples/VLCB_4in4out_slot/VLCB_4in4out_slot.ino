@@ -139,7 +139,12 @@ void setupVLCB()
   // configure and start CAN bus and VLCB message processing
   can2515.setNumBuffers(6, 1);      // more buffers = more memory used, fewer = less
   can2515.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module
+#ifdef ARDUINO_ARCH_RP2040
+  // Pin assignment for Duncan Greenwood's Pico CAN bus shield
+  can2515.setPins(5, 1, 3, 4, 2);           // select pins for CAN bus CE and interrupt connections
+#else
   can2515.setPins(10, 2);           // select pins for CAN bus CE and interrupt connections
+#endif
   if (!can2515.begin())
   {
     Serial << F("> error starting VLCB") << endl;
@@ -180,6 +185,10 @@ void setupModule()
 void setup()
 {
   Serial.begin (115200);
+  while (!Serial)
+  {
+    delay(100);
+  }
   Serial << endl << endl << F("> ** VLCB Arduino basic example module ** ") << __FILE__ << endl;
 
   setupVLCB();
