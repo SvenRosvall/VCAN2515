@@ -76,7 +76,7 @@ void setupVLCB()
   // initialise and load configuration
   VLCB::begin();
 
-  Serial << F("> mode = ") << VLCB::Configuration::modeString(VLCB::getCurrentMode());
+  Serial << F("> mode = (") << _HEX(VLCB::getCurrentMode()) << ") " << VLCB::Configuration::modeString(VLCB::getCurrentMode());
   Serial << F(", CANID = ") << VLCB::getCANID();
   Serial << F(", NN = ") << VLCB::getNodeNum() << endl;
 
@@ -115,7 +115,6 @@ void loop()
   //
   /// check CAN message buffers
   //
-#ifdef TODO_UNCOMMENT_WHEN_VLCB_300_IS_RELEASED
   if (can2515.receiveBufferPeak() > can2515.receiveBufferSize())
   {
     Serial << F("> receive buffer overflow") << endl;
@@ -125,7 +124,6 @@ void loop()
   {
     Serial << F("> transmit buffer overflow") << endl;
   }
-#endif
 
   //
   /// check CAN bus state
