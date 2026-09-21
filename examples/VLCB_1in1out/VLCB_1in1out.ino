@@ -15,8 +15,7 @@
 
 // VLCB library header files
 #include <VLCB.h>
-#include <CAN2515.h>               // Chosen CAN controller
-#include <CANSHIELD.h>
+#include <CANSHIELD.h>           // Chosen CAN controller board
 
 // forward function declarations
 void eventhandler(byte, const VLCB::VlcbMessage *);
