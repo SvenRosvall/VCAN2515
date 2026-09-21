@@ -16,6 +16,7 @@
 // VLCB library header files
 #include <VLCB.h>
 #include <CAN2515.h>               // Chosen CAN controller
+#include <CANSHIELD.h>
 
 // forward function declarations
 void eventhandler(byte, const VLCB::VlcbMessage *);
@@ -32,21 +33,17 @@ const byte MODULE_ID = 99;          // VLCB module type
 // module name, must be at most 7 characters
 char mname[] = "1IN1OUT";
 
-const byte LED_GRN = 4;             // VLCB green Unitialised LED pin
-const byte LED_YLW = 7;             // VLCB yellow Normal LED pin
-const byte SWITCH0 = 8;             // VLCB push button switch pin
-
 // module objects
 VLCB::Switch moduleSwitch(A0);            // an example switch as input
 VLCB::LED moduleLED(6);                  // an example LED as output
 
-VLCB::CAN2515 can2515;                  // CAN transport object
+VLCB::CANSHIELD canBoard;
 
 // Service objects
-VLCB::LEDUserInterface ledUserInterface(LED_GRN, LED_YLW, SWITCH0);
+VLCB::LEDUserInterface ledUserInterface;
 VLCB::SerialUserInterface serialUserInterface;
 VLCB::MinimumNodeServiceWithDiagnostics mnService;
-VLCB::CanServiceWithDiagnostics canService(&can2515);
+VLCB::CanServiceWithDiagnostics canService(canBoard.getCAN2515());
 VLCB::NodeVariableService nvService;
 VLCB::ConsumeOwnEventsService coeService;
 VLCB::EventConsumerService ecService;
@@ -58,7 +55,9 @@ VLCB::EventProducerService epService;
 //
 void setupVLCB()
 {
-  VLCB::checkStartupAction(LED_GRN, LED_YLW, SWITCH0);
+  VLCB::checkStartupAction(canBoard.getGreenLedPin(), canBoard.getYellowLedPin(), canBoard.getSwitchPin());
+
+  canBoard.setupLEDUserInterface(ledUserInterface);
 
   VLCB::setServices({
     &mnService, &ledUserInterface, &serialUserInterface, &canService, &nvService,
@@ -80,15 +79,8 @@ void setupVLCB()
   ecService.setEventHandler(eventhandler);
 
   // configure and start CAN bus and VLCB message processing
-  can2515.setNumBuffers(2, 2);      // more buffers = more memory used, fewer = less
-  can2515.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module
-#ifdef ARDUINO_ARCH_RP2040
-  // Pin assignment for Duncan Greenwood's Pico CAN bus shield
-  can2515.setPins(5, 1, 3, 4, 2);           // select pins for CAN bus CE and interrupt connections
-#else
-  can2515.setPins(10, 2);           // select pins for CAN bus CE and interrupt connections
-#endif
-  if (!can2515.begin())
+  canBoard.getCAN2515()->setNumBuffers(2, 2);      // Reduce number of receive buffers from default 4.
+  if (!canBoard.begin())
   {
     Serial << F("> error starting VLCB") << endl;
   }
@@ -147,12 +139,12 @@ void loop()
   /// check CAN message buffers
   //
 #ifdef TODO_UNCOMMENT_WHEN_VLCB_300_IS_RELEASED
-  if (can2515.receiveBufferPeak() > can2515.receiveBufferSize())
+  if (canBoard.getCAN2515()->receiveBufferPeak() > canBoard.getCAN2515()->receiveBufferSize())
   {
     Serial << F("> receive buffer overflow") << endl;
   }
 
-  if (can2515.transmitBufferPeak() > can2515.transmitBufferSize())
+  if (canBoard.getCAN2515()->transmitBufferPeak() > canBoard.getCAN2515()->transmitBufferSize())
   {
     Serial << F("> transmit buffer overflow") << endl;
   }
@@ -161,7 +153,7 @@ void loop()
   //
   /// check CAN bus state
   //
-  byte s = can2515.errorStatus();
+  byte s = canBoard.getCAN2515()->errorStatus();
   if (s != 0)
   {
     Serial << F("> error flag register is non-zero") << endl;

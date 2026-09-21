@@ -16,6 +16,9 @@ add_library(VCAN2515 OBJECT
         src/CAN2515.cpp
         src/CAN2515.h
 
+        src/CANSHIELD.cpp
+        src/CANSHIELD.h
+
         Arduino/ACAN2515.h
 
         examples/VLCB_1in1out/VLCB_1in1out.ino
