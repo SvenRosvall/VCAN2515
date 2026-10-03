@@ -18,6 +18,8 @@ add_library(VCAN2515 OBJECT
 
         src/CANSHIELD.cpp
         src/CANSHIELD.h
+        src/PicoCANBus.cpp
+        src/PicoCANBus.h
 
         Arduino/ACAN2515.h
 
