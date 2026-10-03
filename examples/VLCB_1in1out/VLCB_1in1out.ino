@@ -36,6 +36,7 @@ char mname[] = "1IN1OUT";
 VLCB::Switch moduleSwitch(A0);            // an example switch as input
 VLCB::LED moduleLED(6);                  // an example LED as output
 
+// This example uses the CANSHIELD (MERG kit110) board.
 VLCB::CANSHIELD canBoard;
 
 // Service objects
