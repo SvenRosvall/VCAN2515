@@ -34,6 +34,11 @@ namespace VLCB
 class PicoCANBus
 {
 public:
+#ifndef ARDUINO_ARCH_RP2040
+  // If not an RPi Pico then this file shall be compilable but this class shall not be instantiatable and will not compile if used anyway.
+  PicoCANBus() = delete;
+#endif
+  
   static byte getGreenLedPin();
   static byte getYellowLedPin();
   static byte getSwitchPin();
