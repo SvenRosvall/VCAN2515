@@ -81,17 +81,20 @@ jobs:
       - name: Compile all RPi Pico examples for Duncan's Pico CAN Bus board with the MCP2515 controller enabled. 
         run: |
           results=""
-          for dir in ./examples/VLCB_Pico*; do
-            if [ -d "$dir" ] && ls "$dir"/*.ino >/dev/null 2>&1; then
-              exname=$(basename "$dir")
-              echo "Compiling $dir"
-              if arduino-cli compile --fqbn rp2040:rp2040:rpipico --library . "$dir"; then
-                results="$results  PASS  $exname"$'\n'
-              else
-                results="$results  FAIL  $exname"$'\n'
+          if "${{ matrix.platform }}" == "rp2040:rp2040"
+          then
+            for dir in ./examples/VLCB_Pico*; do
+              if [ -d "$dir" ] && ls "$dir"/*.ino >/dev/null 2>&1; then
+                exname=$(basename "$dir")
+                echo "Compiling $dir"
+                if arduino-cli compile --fqbn rp2040:rp2040:rpipico --library . "$dir"; then
+                  results="$results  PASS  $exname"$'\n'
+                else
+                  results="$results  FAIL  $exname"$'\n'
+                fi
               fi
-            fi
-          done
+            done
+          fi
           echo "=== Summary ==="
           echo "$results"
           if echo "$results" | grep -q "^  FAIL"; then
