@@ -37,18 +37,13 @@ void CANSHIELD::setupLEDUserInterface(VLCB::LEDUserInterface &ledUserInterface)
 bool CANSHIELD::begin()
 {
   can2515.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module
-#ifdef ARDUINO_ARCH_RP2040
-  // Pin assignment for Duncan Greenwood's Pico CAN bus shield
-  can2515.setPins(5, 1, 3, 4, 2);           // select pins for CAN bus CE and interrupt connections
-#else
   can2515.setPins(10, 2);           // select pins for CAN bus CE and interrupt connections
-#endif
   return can2515.begin();
 }
 
-CAN2515 *CANSHIELD::getCAN2515()
+bool CANSHIELD::hasCanErrors()
 {
-  return &can2515;
+  return can2515.errorStatus() != 0;
 }
 
 }

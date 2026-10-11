@@ -44,8 +44,19 @@ public:
   /// Prepare the board and CAN controller for operation.
   bool begin();
 
+  /// Get the underlying CAN object
+  CanTransport *getCanTransport()
+  {
+    return &can2515;
+  }
+  
   /// Get the underlying CAN2515 object
-  CAN2515 *getCAN2515();
+  CAN2515 *getCAN2515()
+  {
+    return &can2515;
+  }
+
+  bool hasCanErrors();
 
   /// The underlying CAN2515 transport object.
   CAN2515 can2515;
