@@ -34,6 +34,11 @@ namespace VLCB
 class CANSHIELD
 {
 public:
+#ifdef ARDUINO_ARCH_RP2040
+  // If this is an RPi Pico then this file shall be compilable but this class shall not be instantiatable and will not compile if used anyway.
+  CANSHIELD() = delete;
+#endif
+  
   static byte getGreenLedPin();
   static byte getYellowLedPin();
   static byte getSwitchPin();
