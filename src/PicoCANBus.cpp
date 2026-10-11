@@ -41,9 +41,9 @@ bool PicoCANBus::begin()
   return can2515.begin();
 }
 
-CAN2515 *PicoCANBus::getCAN2515()
+bool PicoCANBus::hasCanErrors()
 {
-  return &can2515;
+  return can2515.errorStatus() != 0;
 }
 
 }

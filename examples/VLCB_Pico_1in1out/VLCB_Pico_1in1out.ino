@@ -43,7 +43,7 @@ VLCB::PicoCANBus canBoard;
 VLCB::LEDUserInterface ledUserInterface;
 VLCB::SerialUserInterface serialUserInterface;
 VLCB::MinimumNodeServiceWithDiagnostics mnService;
-VLCB::CanServiceWithDiagnostics canService(canBoard.getCAN2515());
+VLCB::CanServiceWithDiagnostics canService(canBoard.getCanTransport());
 VLCB::NodeVariableService nvService;
 VLCB::ConsumeOwnEventsService coeService;
 VLCB::EventConsumerService ecService;
@@ -78,7 +78,7 @@ void setupVLCB()
   // register our VLCB event handler, to receive event messages of learned events
   ecService.setEventHandler(eventhandler);
 
-  // configure and start CAN bus and VLCB message processing
+  // start CAN bus and VLCB message processing
   if (!canBoard.begin())
   {
     Serial << F("> error starting VLCB") << endl;
@@ -135,27 +135,11 @@ void loop()
   processModuleSwitchChange();
 
   //
-  /// check CAN message buffers
-  //
-#ifdef TODO_UNCOMMENT_WHEN_VLCB_300_IS_RELEASED
-  if (canBoard.getCAN2515()->receiveBufferPeak() > canBoard.getCAN2515()->receiveBufferSize())
-  {
-    Serial << F("> receive buffer overflow") << endl;
-  }
-
-  if (canBoard.getCAN2515()->transmitBufferPeak() > canBoard.getCAN2515()->transmitBufferSize())
-  {
-    Serial << F("> transmit buffer overflow") << endl;
-  }
-#endif
-
-  //
   /// check CAN bus state
   //
-  byte s = canBoard.getCAN2515()->errorStatus();
-  if (s != 0)
+  if (canBoard.hasCanErrors())
   {
-    Serial << F("> error flag register is non-zero") << endl;
+    Serial << F("> Errors on the CAN transport") << endl;
   }
 
   // bottom of loop()
