@@ -26,4 +26,5 @@ add_library(VCAN2515 OBJECT
         examples/VLCB_4in4out_slot/VLCB_4in4out_slot.ino
         examples/VLCB_empty/VLCB_empty.ino
         examples/VLCB_long_message_example/VLCB_long_message_example.ino
+        examples/VLCB_CANSHIELD_1in1out/VLCB_CANSHIELD_1in1out.ino
 )
