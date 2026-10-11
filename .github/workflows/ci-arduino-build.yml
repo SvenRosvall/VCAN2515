@@ -57,7 +57,7 @@ jobs:
           arduino-cli lib install ACAN2515
           arduino-cli lib install Streaming
 
-      - name: Compile all examples for ${{ matrix.label }} for CANSHIELD
+      - name: Compile all generic examples for ${{ matrix.label }} for CANSHIELD
         run: |
           results=""
           # Compile all the generic examples for all platforms
@@ -72,6 +72,29 @@ jobs:
               fi
             fi
           done
+          echo "=== Summary ==="
+          echo "$results"
+          if echo "$results" | grep -q "^  FAIL"; then
+            exit 1
+          fi
+
+      - name: Compile all Arduino examples for CANSHIELD board. 
+        run: |
+          results=""
+          if [ "${{ matrix.platform }}" = "arduino:avr" ]
+          then
+            for dir in ./examples/VLCB_CANSHIELD*; do
+              if [ -d "$dir" ] && ls "$dir"/*.ino >/dev/null 2>&1; then
+                exname=$(basename "$dir")
+                echo "Compiling $dir"
+                if arduino-cli compile --fqbn arduino:avr:uno --library . "$dir"; then
+                  results="$results  PASS  $exname"$'\n'
+                else
+                  results="$results  FAIL  $exname"$'\n'
+                fi
+              fi
+            done
+          fi
           echo "=== Summary ==="
           echo "$results"
           if echo "$results" | grep -q "^  FAIL"; then

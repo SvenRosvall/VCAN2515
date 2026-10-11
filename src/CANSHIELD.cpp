@@ -37,7 +37,10 @@ void CANSHIELD::setupLEDUserInterface(VLCB::LEDUserInterface &ledUserInterface)
 bool CANSHIELD::begin()
 {
   can2515.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module
+#ifndef ARDUINO_ARCH_RP2040
+  // CAN for RP2040 sets more pins.
   can2515.setPins(10, 2);           // select pins for CAN bus CE and interrupt connections
+#endif
   return can2515.begin();
 }
 
