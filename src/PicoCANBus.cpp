@@ -37,7 +37,9 @@ void PicoCANBus::setupLEDUserInterface(VLCB::LEDUserInterface &ledUserInterface)
 bool PicoCANBus::begin()
 {
   can2515.setOscFreq(16000000UL);   // select the crystal frequency of the CAN module
+#ifdef ARDUINO_ARCH_RP2040
   can2515.setPins(5, 1, 3, 4, 2);           // select pins for CAN bus CE and interrupt connections
+#endif
   return can2515.begin();
 }
 
