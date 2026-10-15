@@ -29,13 +29,13 @@ namespace VLCB
 ///   4: MISO0
 ///   5: CAN CS
 ///   21: VLCB green Uninitialized LED pin
-///   29: VLCB yellow Normal LED pin
+///   20: VLCB yellow Normal LED pin
 ///   22: VLCB push button switch pin
 class PicoCANBus
 {
 public:
 #ifndef ARDUINO_ARCH_RP2040
-  // If not an RPi Pico then this file shall be compilable but this class shall not be instantiatable and will not compile if used anyway.
+  // If not an RPi Pico then this file shall be compilable but this class shall not be instantiatable.
   PicoCANBus() = delete;
 #endif
   
