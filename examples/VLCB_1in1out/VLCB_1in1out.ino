@@ -146,7 +146,6 @@ void loop()
   //
   /// check CAN message buffers
   //
-#ifdef TODO_UNCOMMENT_WHEN_VLCB_300_IS_RELEASED
   if (can2515.receiveBufferPeak() > can2515.receiveBufferSize())
   {
     Serial << F("> receive buffer overflow") << endl;
@@ -156,7 +155,6 @@ void loop()
   {
     Serial << F("> transmit buffer overflow") << endl;
   }
-#endif
 
   //
   /// check CAN bus state

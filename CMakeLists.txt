@@ -16,6 +16,11 @@ add_library(VCAN2515 OBJECT
         src/CAN2515.cpp
         src/CAN2515.h
 
+        src/CANSHIELD.cpp
+        src/CANSHIELD.h
+        src/PicoCANBus.cpp
+        src/PicoCANBus.h
+
         Arduino/ACAN2515.h
 
         examples/VLCB_1in1out/VLCB_1in1out.ino
@@ -23,4 +28,6 @@ add_library(VCAN2515 OBJECT
         examples/VLCB_4in4out_slot/VLCB_4in4out_slot.ino
         examples/VLCB_empty/VLCB_empty.ino
         examples/VLCB_long_message_example/VLCB_long_message_example.ino
+        examples/VLCB_CANSHIELD_1in1out/VLCB_CANSHIELD_1in1out.ino
+        examples/VLCB_Pico_1in1out/VLCB_Pico_1in1out.ino
 )

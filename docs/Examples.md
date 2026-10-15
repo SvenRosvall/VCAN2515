@@ -62,6 +62,22 @@ then no event is produced.
 
 This sketch uses services with diagnostics enabled to demonstrate them.
 
+## [VLCB_CANSHIELD_1in1out](../examples/VLCB_CANSHIELD_1in1out/VLCB_CANSHIELD_1in1out.ino)
+This is similar to the [VLCB_1in1out](#vlcb_1in1out) sketch above but makes
+use of the board definition class [CANSHIELD](../src/CANSHIELD.h) to simplify
+the sketch to set up all the pins and other board specific things for the
+CANSHIELD board (a.k.a. MERG kit 110). 
+This board is an Arduino shield for Arduino Uno, Nano and Mega and
+provides a MCP2515 controller and the CBUS mode LEDs and push button.
+
+## [VLCB_Pico_1in1out](../examples/VLCB_Pico_1in1out/VLCB_Pico_1in1out.ino)
+This is similar to the [VLCB_1in1out](#vlcb_1in1out) sketch above but makes
+use of the board definition class [PicoCANBus](../src/PicoCANBus.h) to simplify
+the sketch to set up all the pins and other board specific things for the
+Pico CAN Bus board developed by Duncan Greenwood. 
+This board is a carrier board for Raspberry Pi Pico controllers and 
+provides a MCP2515 controller and the CBUS mode LEDs and push button. 
+
 ## [VLCB_4in4out](../examples/VLCB_4in4out/VLCB_4in4out.ino)
 This is a larger sketch that handles 4 input pins and 4 output pins.
 See full documentation for this sketch in its own [README](../docs/VLCB4in4out_README.md).
